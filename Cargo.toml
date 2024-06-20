@@ -1,0 +1,29 @@
+[package]
+name = "oio"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+clap = { version = "4.5.7", features = ["derive"] }
+error-stack = "0.4.1"
+thiserror = "1.0.40"
+opendal = { version = "0.47.0", features = [
+    "services-s3",
+    "services-oss",
+    "services-fs",
+] }
+tokio = { version = "1.38.0", features = ["full"] }
+toml = "0.8.14"
+serde = { version = "1.0", features = ["derive"] }
+bytes = "1.6.0"
+serde_json = "1.0.117"
+humantime = "2.1.0"
+humantime-serde = "1.1.1"
+uuid = "1.8.0"
+rand = "0.8.5"
+
+[dev-dependencies]
+insta = "1.39.0"
+
+[profile.release]
+debug = true
