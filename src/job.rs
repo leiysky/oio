@@ -52,8 +52,8 @@ impl Job {
                     let task_start = std::time::Instant::now();
                     let bytes = task.run(&operator).await?;
                     let lat = task_start.elapsed();
-                    latency.add(lat.as_millis() as f64);
-                    bandwidth.add(bytes as f64 / 1024.0 / lat.as_secs_f64());
+                    latency.add(lat.as_micros() as f64);
+                    bandwidth.add(bytes as f64 / lat.as_secs_f64());
                 }
             }));
         }
