@@ -1,4 +1,4 @@
-use std::fmt::Display;
+use std::{fmt::Display, time::Duration};
 
 use serde::{Deserialize, Serialize};
 
@@ -18,9 +18,9 @@ pub struct Metric {
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct Report {
-    /// throughput in KiB/s
+    /// throughput in bytes/s
     bandwidth: Metric,
-    /// latency in ms
+    /// latency in microseconds
     latency: Metric,
 }
 
@@ -55,23 +55,79 @@ impl Display for Report {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         writeln!(f, "Bandwidth:")?;
         writeln!(f, "  num_samples: {}", self.bandwidth.num_samples)?;
-        writeln!(f, "  min(KiB/s): {:.3}", self.bandwidth.min)?;
-        writeln!(f, "  max(KiB/s): {:.3}", self.bandwidth.max)?;
-        writeln!(f, "  avg(KiB/s): {:.3}", self.bandwidth.avg)?;
-        writeln!(f, "  stdev(KiB/s): {:.3}", self.bandwidth.stdev)?;
-        writeln!(f, "  p99(KiB/s): {:.3}", self.bandwidth.p99)?;
-        writeln!(f, "  p95(KiB/s): {:.3}", self.bandwidth.p95)?;
-        writeln!(f, "  p50(KiB/s): {:.3}", self.bandwidth.p50)?;
+        writeln!(
+            f,
+            "  min: {}/s",
+            humansize::format_size(self.bandwidth.min as u64, humansize::BINARY)
+        )?;
+        writeln!(
+            f,
+            "  max: {}/s",
+            humansize::format_size(self.bandwidth.max as u64, humansize::BINARY)
+        )?;
+        writeln!(
+            f,
+            "  avg: {}/s",
+            humansize::format_size(self.bandwidth.avg as u64, humansize::BINARY)
+        )?;
+        writeln!(
+            f,
+            "  stdev: {}/s",
+            humansize::format_size(self.bandwidth.stdev as u64, humansize::BINARY)
+        )?;
+        writeln!(
+            f,
+            "  p99: {}/s",
+            humansize::format_size(self.bandwidth.p99 as u64, humansize::BINARY)
+        )?;
+        writeln!(
+            f,
+            "  p95: {}/s",
+            humansize::format_size(self.bandwidth.p95 as u64, humansize::BINARY)
+        )?;
+        writeln!(
+            f,
+            "  p50: {}/s",
+            humansize::format_size(self.bandwidth.p50 as u64, humansize::BINARY)
+        )?;
         writeln!(f)?;
         writeln!(f, "Latency:")?;
         writeln!(f, "  num_samples: {}", self.latency.num_samples)?;
-        writeln!(f, "  min(ms): {:.3}", self.latency.min)?;
-        writeln!(f, "  max(ms): {:.3}", self.latency.max)?;
-        writeln!(f, "  avg(ms): {:.3}", self.latency.avg)?;
-        writeln!(f, "  stdev(ms): {:.3}", self.latency.stdev)?;
-        writeln!(f, "  p99(ms): {:.3}", self.latency.p99)?;
-        writeln!(f, "  p95(ms): {:.3}", self.latency.p95)?;
-        writeln!(f, "  p50(ms): {:.3}", self.latency.p50)?;
+        writeln!(
+            f,
+            "  min: {}",
+            humantime::format_duration(Duration::from_micros(self.latency.min as u64))
+        )?;
+        writeln!(
+            f,
+            "  max: {}",
+            humantime::format_duration(Duration::from_micros(self.latency.max as u64))
+        )?;
+        writeln!(
+            f,
+            "  avg: {}",
+            humantime::format_duration(Duration::from_micros(self.latency.avg as u64))
+        )?;
+        writeln!(
+            f,
+            "  stdev: {}",
+            humantime::format_duration(Duration::from_micros(self.latency.stdev as u64))
+        )?;
+        writeln!(
+            f,
+            "  p99: {}",
+            humantime::format_duration(Duration::from_micros(self.latency.p99 as u64))
+        )?;
+        writeln!(
+            f,
+            "  p95: {}",
+            humantime::format_duration(Duration::from_micros(self.latency.p95 as u64))
+        )?;
+        writeln!(
+            f,
+            "  p50: {}",
+            humantime::format_duration(Duration::from_micros(self.latency.p50 as u64))
+        )?;
         Ok(())
     }
 }
