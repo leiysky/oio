@@ -1,0 +1,12 @@
+[service]
+type = "s3"
+endpoint = ""
+bucket = ""
+prefix = ""
+access_key = ""
+secret_key = ""
+
+[job]
+workload = "download"
+file_size = 52428800
+run_time = "60s"
