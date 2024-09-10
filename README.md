@@ -23,6 +23,7 @@ $ target/release/oio [config_file]
 | ---------- | ---------------- | ------------------------------------------------------------ |
 | type       | string: required | Type of storage services, one of: "s3", "oss", "minio", "fs" |
 | endpoint   | string: required | Endpoint of the storage service, e.g. "s3.aws.amazon.com"    |
+| region     | string: rqeuired | Region of the storage service, e.g. "us-east-1"              |
 | bucket     | string: required | Bucket name, e.g. "my-bucket"                                |
 | access_key | string: required | Access key, e.g. "AKIAIOSFODNN7EXAMPLE"                      |
 | secret_key | string: required | Secret key, e.g. "wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY"  |

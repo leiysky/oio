@@ -9,5 +9,6 @@ secret_key = ""
 
 [job]
 workload = "download"
-file_size = 4096
+# 64MiB
+file_size = 67108864
 run_time = "60s"
