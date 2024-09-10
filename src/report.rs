@@ -22,10 +22,12 @@ pub struct Report {
     bandwidth: Metric,
     /// latency in microseconds
     latency: Metric,
+    /// I/O operations per second
+    iops: Metric,
 }
 
 impl Report {
-    pub fn new(bandwidth: SampleSet, latency: SampleSet) -> Self {
+    pub fn new(bandwidth: SampleSet, latency: SampleSet, iops: SampleSet) -> Self {
         Self {
             bandwidth: Metric {
                 num_samples: bandwidth.num_samples() as u32,
@@ -46,6 +48,16 @@ impl Report {
                 p99: latency.percentile(99.0),
                 p95: latency.percentile(95.0),
                 p50: latency.percentile(50.0),
+            },
+            iops: Metric {
+                num_samples: iops.num_samples() as u32,
+                min: iops.min(),
+                max: iops.max(),
+                avg: iops.avg(),
+                stdev: iops.stdev(),
+                p99: iops.percentile(99.0),
+                p95: iops.percentile(95.0),
+                p50: iops.percentile(50.0),
             },
         }
     }
@@ -90,6 +102,7 @@ impl Display for Report {
             "  p50: {}/s",
             humansize::format_size(self.bandwidth.p50 as u64, humansize::BINARY)
         )?;
+
         writeln!(f)?;
         writeln!(f, "Latency:")?;
         writeln!(f, "  num_samples: {}", self.latency.num_samples)?;
@@ -128,6 +141,18 @@ impl Display for Report {
             "  p50: {}",
             humantime::format_duration(Duration::from_micros(self.latency.p50 as u64))
         )?;
+
+        writeln!(f)?;
+        writeln!(f, "IOPS:")?;
+        writeln!(f, "  num_samples: {}", self.iops.num_samples)?;
+        writeln!(f, "  min: {}", self.iops.min)?;
+        writeln!(f, "  max: {}", self.iops.max)?;
+        writeln!(f, "  avg: {}", self.iops.avg)?;
+        writeln!(f, "  stdev: {}", self.iops.stdev)?;
+        writeln!(f, "  p99: {}", self.iops.p99)?;
+        writeln!(f, "  p95: {}", self.iops.p95)?;
+        writeln!(f, "  p50: {}", self.iops.p50)?;
+
         Ok(())
     }
 }

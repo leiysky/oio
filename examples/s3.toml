@@ -1,12 +1,13 @@
 [service]
 type = "s3"
-endpoint = ""
-bucket = ""
+endpoint = "https://s3.{region}.amazonaws.com"
+bucket = "my-bucket"
 prefix = ""
+region = "us-east-1"
 access_key = ""
 secret_key = ""
 
 [job]
 workload = "download"
-file_size = 52428800
+file_size = 4096
 run_time = "60s"

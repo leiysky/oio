@@ -44,11 +44,12 @@ fn run(args: &Args) -> Result<(), CliError> {
         .change_context_lazy(error)?;
     let config_str = String::from_utf8(buf).change_context_lazy(error)?;
     let config: Config = toml::from_str(&config_str).change_context_lazy(error)?;
+    config.validate().change_context_lazy(error)?;
 
     let mut job = Job::new(config);
-    let (bandwidth, latency) = job.run().change_context_lazy(error)?;
+    let (bandwidth, latency, iops) = job.run().change_context_lazy(error)?;
 
-    let report = Report::new(bandwidth, latency);
+    let report = Report::new(bandwidth, latency, iops);
     println!("{}", report);
 
     Ok(())

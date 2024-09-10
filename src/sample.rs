@@ -33,11 +33,17 @@ impl SampleSet {
 
     /// Get average value
     pub fn avg(&self) -> f64 {
+        if self.num_samples() == 0 {
+            return f64::NAN;
+        }
         self.0.iter().copied().sum::<f64>() / self.0.len() as f64
     }
 
     /// Get standard deviation
     pub fn stdev(&self) -> f64 {
+        if self.num_samples() == 0 {
+            return f64::NAN;
+        }
         let avg = self.avg();
         let sum = self
             .0
@@ -50,6 +56,9 @@ impl SampleSet {
 
     /// Get percentile value
     pub fn percentile(&self, percentile: f64) -> f64 {
+        if self.num_samples() == 0 {
+            return f64::NAN;
+        }
         let mut sorted = self.0.clone();
         sorted.sort_by(|a, b| a.partial_cmp(b).unwrap());
         sorted
