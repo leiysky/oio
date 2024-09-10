@@ -16,6 +16,18 @@ pub struct Config {
     pub job: JobConfig,
 }
 
+impl Config {
+    pub fn validate(&self) -> Result<(), ConfigError> {
+        if self.job.file_size < 4096 {
+            bail!(ConfigError(
+                "file_size must be greater or equal to 4096".to_string()
+            ));
+        }
+
+        Ok(())
+    }
+}
+
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Service {
     /// Endpoint of object storage, e.g. s3.us-east-1.amazonaws.com
@@ -28,6 +40,8 @@ pub struct Service {
     /// Prefix of object, e.g. path/to/
     /// Default: ""
     pub prefix: Option<String>,
+    /// Region
+    pub region: Option<String>,
     /// Access key
     pub access_key: String,
     /// Secret key
