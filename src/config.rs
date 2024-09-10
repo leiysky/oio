@@ -56,7 +56,7 @@ pub struct JobConfig {
     /// Workload for testing
     pub workload: Workload,
     /// Size of file in bytes
-    pub file_size: u64,
+    pub file_size: u32,
     /// Maximum time to run the job
     #[serde(with = "humantime_serde")]
     pub run_time: Duration,

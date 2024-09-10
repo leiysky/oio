@@ -46,10 +46,17 @@ fn run(args: &Args) -> Result<(), CliError> {
     let config: Config = toml::from_str(&config_str).change_context_lazy(error)?;
     config.validate().change_context_lazy(error)?;
 
-    let mut job = Job::new(config);
+    let mut job = Job::new(config.clone());
     let (bandwidth, latency, iops) = job.run().change_context_lazy(error)?;
 
-    let report = Report::new(bandwidth, latency, iops);
+    let report = Report::new(
+        config.job.num_jobs.unwrap_or(1),
+        config.job.file_size,
+        config.job.workload.to_string(),
+        bandwidth,
+        latency,
+        iops,
+    );
     println!("{}", report);
 
     Ok(())
