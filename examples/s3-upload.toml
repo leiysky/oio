@@ -1,0 +1,14 @@
+[service]
+type = "s3"
+endpoint = "https://s3.{region}.amazonaws.com"
+bucket = "my-bucket"
+prefix = ""
+region = "us-east-1"
+access_key = ""
+secret_key = ""
+
+[job]
+workload = "upload"
+# 64MiB
+file_size = 67108864
+run_time = "60s"
