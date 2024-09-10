@@ -108,18 +108,18 @@ impl Job {
 #[derive(Clone, Debug)]
 enum Task {
     Download { path: String },
-    Upload { path: String, file_size: u64 },
+    Upload { path: String, file_size: u32 },
 }
 
 impl Task {
     /// Run task with operator, returns processed bytes
-    pub async fn run(&self, operator: &Operator) -> Result<u64, JobError> {
+    pub async fn run(&self, operator: &Operator) -> Result<u32, JobError> {
         match self {
             Task::Download { path } => {
                 let res = operator.read_with(path).await.change_context_lazy(|| {
                     JobError(format!("failed to download object: {}", path))
                 })?;
-                Ok(res.len() as u64)
+                Ok(res.len() as u32)
             }
             Task::Upload { path, file_size } => {
                 let buff = Bytes::from(vec![254u8; *file_size as usize]);

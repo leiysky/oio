@@ -18,6 +18,12 @@ pub struct Metric {
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct Report {
+    /// Number of parallel jobs
+    num_jobs: u32,
+    /// File size in bytes
+    file_size: u32,
+    /// Workload
+    workload: String,
     /// throughput in bytes/s
     bandwidth: Metric,
     /// latency in microseconds
@@ -27,8 +33,18 @@ pub struct Report {
 }
 
 impl Report {
-    pub fn new(bandwidth: SampleSet, latency: SampleSet, iops: SampleSet) -> Self {
+    pub fn new(
+        num_jobs: u32,
+        file_size: u32,
+        workload: String,
+        bandwidth: SampleSet,
+        latency: SampleSet,
+        iops: SampleSet,
+    ) -> Self {
         Self {
+            num_jobs,
+            file_size,
+            workload,
             bandwidth: Metric {
                 num_samples: bandwidth.num_samples() as u32,
                 min: bandwidth.min(),
@@ -65,6 +81,16 @@ impl Report {
 
 impl Display for Report {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        writeln!(f, "Number of parallel jobs: {}", self.num_jobs)?;
+        writeln!(
+            f,
+            "File size: {}",
+            humansize::format_size(self.file_size as u64, humansize::BINARY)
+        )?;
+        writeln!(f, "Workload: {}", self.workload)?;
+
+        writeln!(f)?;
+
         writeln!(f, "Bandwidth:")?;
         writeln!(f, "  num_samples: {}", self.bandwidth.num_samples)?;
         writeln!(
@@ -144,14 +170,14 @@ impl Display for Report {
 
         writeln!(f)?;
         writeln!(f, "IOPS:")?;
-        writeln!(f, "  num_samples: {}", self.iops.num_samples)?;
-        writeln!(f, "  min: {}", self.iops.min)?;
-        writeln!(f, "  max: {}", self.iops.max)?;
-        writeln!(f, "  avg: {}", self.iops.avg)?;
-        writeln!(f, "  stdev: {}", self.iops.stdev)?;
-        writeln!(f, "  p99: {}", self.iops.p99)?;
-        writeln!(f, "  p95: {}", self.iops.p95)?;
-        writeln!(f, "  p50: {}", self.iops.p50)?;
+        writeln!(f, "  num_samples: {:.3}", self.iops.num_samples)?;
+        writeln!(f, "  min: {:.3}", self.iops.min)?;
+        writeln!(f, "  max: {:.3}", self.iops.max)?;
+        writeln!(f, "  avg: {:.3}", self.iops.avg)?;
+        writeln!(f, "  stdev: {:.3}", self.iops.stdev)?;
+        writeln!(f, "  p99: {:.3}", self.iops.p99)?;
+        writeln!(f, "  p95: {:.3}", self.iops.p95)?;
+        writeln!(f, "  p50: {:.3}", self.iops.p50)?;
 
         Ok(())
     }
