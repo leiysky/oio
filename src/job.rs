@@ -155,6 +155,9 @@ fn build_operator(service: &Service) -> Result<Operator, JobError> {
             if let Some(region) = &service.region {
                 builder.region(region);
             }
+            if let Some(true) = service.virtual_host_style {
+                builder.enable_virtual_host_style();
+            }
             builder
                 .endpoint(&service.endpoint)
                 .bucket(&service.bucket)

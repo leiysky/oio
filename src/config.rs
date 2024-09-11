@@ -46,6 +46,8 @@ pub struct Service {
     pub access_key: String,
     /// Secret key
     pub secret_key: String,
+    /// Virtual host style
+    pub virtual_host_style: Option<bool>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
