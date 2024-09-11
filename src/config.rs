@@ -71,6 +71,8 @@ pub enum ServiceType {
     S3,
     /// AliCloud OSS
     Oss,
+    /// Tencent COS
+    Cos,
     /// Minio object storage
     Minio,
 
@@ -104,6 +106,7 @@ impl TryFrom<&str> for ServiceType {
         match value {
             "s3" => Ok(ServiceType::S3),
             "oss" => Ok(ServiceType::Oss),
+            "cos" => Ok(ServiceType::Cos),
             "minio" => Ok(ServiceType::Minio),
             "fs" => Ok(ServiceType::Fs),
             _ => bail!(ConfigError(format!("invalid service: {}", value))),
@@ -116,6 +119,7 @@ impl Display for ServiceType {
         match self {
             ServiceType::S3 => write!(f, "s3"),
             ServiceType::Oss => write!(f, "oss"),
+            ServiceType::Cos => write!(f, "cos"),
             ServiceType::Minio => write!(f, "minio"),
             ServiceType::Fs => write!(f, "fs"),
         }

@@ -181,6 +181,20 @@ fn build_operator(service: &Service) -> Result<Operator, JobError> {
                 .change_context_lazy(|| JobError("failed to build oss operator".to_string()))?
                 .finish()
         }
+        ServiceType::Cos => {
+            let mut builder = opendal::services::Cos::default();
+            if let Some(prefix) = &service.prefix {
+                builder.root(prefix);
+            }
+            builder
+                .endpoint(&service.endpoint)
+                .bucket(&service.bucket)
+                .secret_id(&service.access_key)
+                .secret_key(&service.secret_key);
+            Operator::new(builder)
+                .change_context_lazy(|| JobError("failed to build cos operator".to_string()))?
+                .finish()
+        }
         ServiceType::Fs => {
             let mut builder = opendal::services::Fs::default();
             if let Some(prefix) = &service.prefix {
