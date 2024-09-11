@@ -10,6 +10,7 @@ thiserror = "1.0.40"
 opendal = { version = "0.47.0", features = [
     "services-s3",
     "services-oss",
+    "services-cos",
     "services-fs",
 ] }
 tokio = { version = "1.38.0", features = ["full"] }
