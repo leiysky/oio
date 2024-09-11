@@ -47,7 +47,7 @@ pub struct Service {
     /// Secret key
     pub secret_key: String,
     /// Virtual host style
-    pub virtual_hosted_style: Option<bool>,
+    pub virtual_host_style: Option<bool>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -188,6 +188,8 @@ mod tests {
         prefix = "path/to/"
         access_key = "AKIAIOSFODNN7EXAMPLE"
         secret_key = "wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY"
+        region = "us-east-1"
+        virtual_host_style = true
 
         [job]
         num_jobs = 4
@@ -203,8 +205,10 @@ mod tests {
         type = "s3"
         bucket = "my-bucket"
         prefix = "path/to/"
+        region = "us-east-1"
         access_key = "AKIAIOSFODNN7EXAMPLE"
         secret_key = "wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY"
+        virtual_host_style = true
 
         [job]
         num_jobs = 4
